@@ -35,3 +35,9 @@ group :test do
   # gem 'rb-fsevent', '0.9.1', :require => false
   # gem 'growl', '1.0.3'
 end
+
+group :production do
+  gem 'rails_12factor'
+end
+
+ruby "1.9.3"
