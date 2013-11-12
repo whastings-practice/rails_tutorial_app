@@ -1,1 +1,2 @@
 --color
+--drb # Lets rspec run with spork.
