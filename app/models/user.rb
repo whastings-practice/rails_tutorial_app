@@ -12,6 +12,6 @@ class User < ActiveRecord::Base
   validates :password_confirmation, presence: true
 
   # Callbacks:
-  before_save { |user| user.email.downcase! }
+  before_save { email.downcase! }
 
 end
