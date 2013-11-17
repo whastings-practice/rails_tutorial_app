@@ -13,5 +13,6 @@ class User < ActiveRecord::Base
 
   # Callbacks:
   before_save { email.downcase! }
+  after_validation { errors.messages.delete(:password_digest) }
 
 end
