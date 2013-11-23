@@ -2,8 +2,18 @@ module RailsTutorialApp
   module Spec
     module UserUtils
 
-      def get_test_user
-        FactoryGirl.create(:user)
+      def get_test_user(email = nil, name = nil)
+        options = {}
+        options[:email] = email unless email.nil?
+        options[:name] = name unless name.nil?
+        FactoryGirl.create(:user, options)
+      end
+
+      def sign_in(user)
+        visit signin_path
+        valid_signin(user)
+        # Sign in when not using Capybara.
+        cookies[:remember_token] = user.remember_token
       end
 
       def valid_signin(user)
