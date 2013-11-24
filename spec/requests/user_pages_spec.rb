@@ -18,7 +18,7 @@ describe "User pages" do
 
     describe "pagination" do
 
-      it { should have_selector('div.pagination') }
+      it { should have_pagination }
 
       it "should list each user" do
         User.paginate(page: 1).each do |user|
@@ -60,17 +60,27 @@ describe "User pages" do
 
   describe "profile page" do
     let(:user) { get_test_user }
-    let!(:m1) { get_test_micropost(user, content: 'Foo') }
-    let!(:m2) { get_test_micropost(user, content: 'Bar') }
 
-    before { visit user_path(user) }
+    before do
+      31.times { get_test_micropost(user, content: 'Foo') }
+      visit user_path(user)
+    end
 
     it { should have_page_title(user.name) }
 
     describe "microposts" do
-      it { should have_content(m1.content) }
-      it { should have_content(m2.content) }
       it { should have_content(user.microposts.count) }
+
+      describe "pagination" do
+        it { should have_pagination }
+
+        it "should list each micropost" do
+          user.microposts.paginate(page: 1).each do |post|
+            should have_content(post.content)
+          end
+        end
+
+      end
     end
   end
 

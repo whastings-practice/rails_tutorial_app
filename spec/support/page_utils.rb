@@ -41,3 +41,9 @@ RSpec::Matchers.define(:have_page_title) do |title|
     page.should have_heading(title)
   end
 end
+
+RSpec::Matchers.define(:have_pagination) do
+  match do |page|
+    page.should have_selector('div.pagination')
+  end
+end

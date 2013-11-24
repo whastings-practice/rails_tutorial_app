@@ -24,8 +24,42 @@ describe "Static pages" do
         visit root_path
       end
 
+      describe "the user's micropost count" do
+
+        describe "for multiple posts" do
+          let(:count) { user.microposts.count }
+
+          it "should show plural count" do
+            should have_selector('aside span', text: "#{count} microposts")
+          end
+        end
+
+        describe "for one post" do
+          before do
+            user.microposts.delete_all
+            get_test_micropost(user, content: 'Foobar')
+            visit root_path
+          end
+
+          it "should show a singular count" do
+            should have_selector('aside span', text: '1 micropost')
+          end
+        end
+
+        describe "for no posts" do
+          before do
+            user.microposts.delete_all
+            visit root_path
+          end
+
+          it "should show a zero count" do
+            should have_selector('aside span', text: '0 microposts')
+          end
+        end
+      end
+
       it "should render the user's feed" do
-        user.feed.each do |item|
+        user.feed.paginate(page: 1).each do |item|
           should have_selector("li##{item.id}", text: item.content)
         end
       end
