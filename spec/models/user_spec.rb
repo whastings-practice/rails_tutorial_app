@@ -126,10 +126,10 @@ describe User do
   describe "micropost association" do
     before { @user.save }
     let!(:older_micropost) do
-      FactoryGirl.create(:micropost, user: @user, created_at: 1.day.ago)
+      get_test_micropost(@user, created_at: 1.day.ago)
     end
     let!(:newer_micropost) do
-      FactoryGirl.create(:micropost, user: @user, created_at: 1.hour.ago)
+      get_test_micropost(@user, created_at: 1.hour.ago)
     end
 
     it "should have the right microposts in the right order" do
@@ -145,7 +145,7 @@ describe User do
     end
 
     describe "status" do
-      let(:unfollowed_post) { FactoryGirl.create(:micropost, user: get_test_user) }
+      let(:unfollowed_post) { get_test_micropost(get_test_user) }
 
       its(:feed) { should include(older_micropost) }
       its(:feed) { should include(newer_micropost) }

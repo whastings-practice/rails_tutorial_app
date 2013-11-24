@@ -103,7 +103,7 @@ describe "Authentication" do
       end
 
       describe "submitting to the destroy action" do
-        before { delete micropost_path(FactoryGirl.create(:micropost)) }
+        before { delete micropost_path(get_test_micropost) }
         specify { response.should redirect_to(signin_path) }
       end
 

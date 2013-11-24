@@ -25,7 +25,7 @@ describe "Micropost pages" do
   end
 
   describe "micropost destruction" do
-    before { FactoryGirl.create(:micropost, user: user) }
+    before { get_test_micropost(user) }
 
     describe "as correct user" do
       before { visit root_path }

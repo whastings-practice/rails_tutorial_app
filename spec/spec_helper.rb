@@ -19,6 +19,7 @@ Spork.prefork do
 
   # Include spec helper modules.
   include RailsTutorialApp::Spec::UserUtils
+  include RailsTutorialApp::Spec::MicropostUtils
 
   RSpec.configure do |config|
     # ## Mock Framework
