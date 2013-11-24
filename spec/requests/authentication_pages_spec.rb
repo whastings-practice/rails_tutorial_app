@@ -30,15 +30,13 @@ describe "Authentication" do
       before { valid_signin(user) }
 
       it { should have_page_title(user.name) }
-      it { should have_link('Profile', href: user_path(user)) }
-      it { should have_link('Sign out', href: signout_path) }
-      it { should have_link('Settings', href: edit_user_path(user)) }
-      it { should have_link('Users', href: users_path) }
-      it { should_not have_link('Sign in', href: signin_path) }
+      it { should have_signedin_nav(user) }
+      it { should_not have_signedout_nav }
 
       describe "followed by signout" do
         before { click_link "Sign out" }
-        it { should have_link('Sign in') }
+        it { should have_signedout_nav }
+        it { should_not have_signedin_nav(user) }
       end
     end
   end
@@ -120,6 +118,22 @@ describe "Authentication" do
 
       describe "submitting a DELETE request to Users#destroy action" do
         before { delete user_path(user) }
+
+        specify { response.should redirect_to(root_path) }
+      end
+    end
+
+    describe "as signed-in user" do
+      before { sign_in get_test_user }
+
+      describe "when visiting the sign-up page" do
+        before { visit signup_path }
+
+        it { should_not have_page_title('Sign up') }
+      end
+
+      describe "submitting a POST request to the Users#create action" do
+        before { post users_path }
 
         specify { response.should redirect_to(root_path) }
       end

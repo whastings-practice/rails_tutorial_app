@@ -9,6 +9,10 @@ module SessionsHelper
     !current_user.nil?
   end
 
+  def signed_out?
+    !signed_in?
+  end
+
   def current_user=(user)
     @current_user = user
   end
