@@ -29,6 +29,14 @@ module RailsTutorialApp
         fill_in "Confirmation", with: "foobar"
       end
 
+      def valid_edit(name, email, user)
+        fill_in "Name", with: name
+        fill_in "Email", with: email
+        fill_in "Password", with: user.password
+        fill_in "Confirm Password", with: user.password
+        click_button "Save changes"
+      end
+
     end
   end
 end
