@@ -1,0 +1,8 @@
+(function($) {
+
+  var follow_form = $('#follow_form'),
+      follow_count = $('#followers');
+  follow_form.html('<%= escape_javascript(render('users/unfollow')) %>');
+  follow_count.html('<%= @user.followers.count %>');
+
+})(jQuery);
