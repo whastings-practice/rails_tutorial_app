@@ -5,7 +5,7 @@ describe RelationshipsController do
   let(:user) { get_test_user }
   let(:other_user) { get_test_user }
 
-  before { sign_in user }
+  before { sign_in(user, no_capybara: true) }
 
   describe "creating a relationship with Ajax" do
 

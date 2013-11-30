@@ -20,8 +20,16 @@ class User < ActiveRecord::Base
 
   # Callbacks:
   before_save { email.downcase! }
-  before_save :create_remember_token
+  before_create :create_remember_token
   after_validation { errors.messages.delete(:password_digest) }
+
+  def self.new_remember_token
+    SecureRandom.urlsafe_base64
+  end
+
+  def self.encrypt(token)
+    Digest::SHA1.hexdigest(token.to_s)
+  end
 
   def following?(other_user)
     relationships.find_by_followed_id(other_user.id)
@@ -42,7 +50,7 @@ class User < ActiveRecord::Base
   private
 
     def create_remember_token
-      self.remember_token = SecureRandom.urlsafe_base64
+      self.remember_token = User.encrypt(User.new_remember_token)
     end
 
 end

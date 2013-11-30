@@ -79,7 +79,7 @@ describe "Authentication" do
         end
 
         describe "submitting to the update action" do
-          before { put user_path(user) }
+          before { patch user_path(user) }
 
           specify { response.should redirect_to(signin_path) }
         end
@@ -137,15 +137,15 @@ describe "Authentication" do
     describe "as wrong user" do
       let(:user) { get_test_user }
       let(:wrong_user) { get_test_user('wrong@example.com') }
-      before { sign_in user }
+      before { sign_in(user, no_capybara: true) }
 
       describe "visiting Users#edit page" do
         before { visit edit_user_path(wrong_user) }
         it { should_not have_title_tag('Edit user') }
       end
 
-      describe "submitting a PUT request to the Users#update action" do
-        before { put user_path(wrong_user) }
+      describe "submitting a PATCH request to the Users#update action" do
+        before { patch user_path(wrong_user) }
         specify { response.should redirect_to(root_path) }
       end
     end
@@ -154,7 +154,7 @@ describe "Authentication" do
       let(:user) { get_test_user }
       let(:non_admin) { get_test_user }
 
-      before { sign_in non_admin }
+      before { sign_in(non_admin, no_capybara: true) }
 
       describe "submitting a DELETE request to Users#destroy action" do
         before { delete user_path(user) }
@@ -164,7 +164,7 @@ describe "Authentication" do
     end
 
     describe "as signed-in user" do
-      before { sign_in get_test_user }
+      before { sign_in(get_test_user) }
 
       describe "when visiting the sign-up page" do
         before { visit signup_path }
@@ -173,7 +173,10 @@ describe "Authentication" do
       end
 
       describe "submitting a POST request to the Users#create action" do
-        before { post users_path }
+        before do
+          sign_in(get_test_user, no_capybara: true)
+          post users_path
+        end
 
         specify { response.should redirect_to(root_path) }
       end

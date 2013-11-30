@@ -17,3 +17,8 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Ignore OS files.
+.ruby-gemset
+.ruby-version
+
