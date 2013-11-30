@@ -23,9 +23,9 @@ RSpec::Matchers.define(:have_notice) do |message|
   end
 end
 
-RSpec::Matchers.define(:have_title) do |title|
+RSpec::Matchers.define(:have_title_tag) do |title|
   match do |page|
-    page.should have_selector('title', text: full_title(title))
+    page.should have_title(full_title(title))
   end
 end
 
@@ -37,7 +37,7 @@ end
 
 RSpec::Matchers.define(:have_page_title) do |title|
   match do |page|
-    page.should have_title(title)
+    page.should have_title_tag(title)
     page.should have_heading(title)
   end
 end

@@ -13,7 +13,7 @@ describe "Static pages" do
     before { visit root_path }
 
     it { should have_heading('Rails Tutorial App') }
-    it { should_not have_title('Home') }
+    it { should_not have_title_tag('Home') }
 
     describe "for signed-in users" do
       let(:user) { get_test_user }

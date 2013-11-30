@@ -40,7 +40,9 @@ describe "User pages" do
 
         it { should have_link('delete', href: user_path(User.first)) }
         it "should be able to delete another user" do
-          expect { click_link('delete') }.to change(User, :count).by(-1)
+          expect do
+            click_link('delete', match: :first)
+          end.to change(User, :count).by(-1)
         end
         it { should_not have_link('delete', href: user_path(admin)) }
 
@@ -104,7 +106,7 @@ describe "User pages" do
 
         describe "toggling the button" do
           before { click_button 'Follow' }
-          it { should have_selector('input', value: 'Unfollow') }
+          it { should have_selector('input[value="Unfollow"]') }
         end
       end
 
@@ -128,7 +130,7 @@ describe "User pages" do
 
         describe "toggling the button" do
           before { click_button 'Unfollow' }
-          it { should have_selector('input', value: 'Follow') }
+          it { should have_selector('input[value="Follow"]') }
         end
       end
     end
@@ -182,7 +184,7 @@ describe "User pages" do
     describe "page" do
 
       it { should have_heading('Update your profile') }
-      it { should have_title('Edit user') }
+      it { should have_title_tag('Edit user') }
       it { should have_link('change', href: 'http://gravatar.com/emails') }
     end
 
@@ -216,7 +218,7 @@ describe "User pages" do
         visit following_user_path(user)
       end
 
-      it { should have_title('Following') }
+      it { should have_title_tag('Following') }
       it { should have_selector('h3', text: 'Following') }
       it { should have_link(other_user.name, href: user_path(other_user)) }
     end
@@ -227,7 +229,7 @@ describe "User pages" do
         visit followers_user_path(other_user)
       end
 
-      it { should have_title('Followers') }
+      it { should have_title_tag('Followers') }
       it { should have_selector('h3', text: 'Followers') }
       it { should have_link(user.name, href: user_path(user)) }
     end
